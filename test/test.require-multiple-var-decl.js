@@ -7,16 +7,16 @@ describe('rules/require-multiple-var-decl', function() {
         checker = new Checker();
         checker.registerDefaultRules();
     });
-    it('should report consecutive var decl', function() {
+    it('should report multiple consecutive var decl', function() {
         checker.configure({ requireMultipleVarDecl: true });
-        assert(checker.checkString('var x; var y;').getErrorCount() === 1);
+        assert(checker.checkString('var x; var y;').getErrorList(), []);
     });
-    it('should not report multiple var decl', function() {
+    it('should report single consecutive var decl', function() {
         checker.configure({ requireMultipleVarDecl: true });
-        assert(checker.checkString('var x, y;').isEmpty());
+        assert(checker.checkString('var x, y;').getErrorCount(), 1);
     });
     it('should not report separated var decl', function() {
         checker.configure({ requireMultipleVarDecl: true });
-        assert(checker.checkString('var x; x++; var y;').isEmpty());
+        assert(checker.checkString('var x; x++; var y;').getErrorList(), []);
     });
 });
